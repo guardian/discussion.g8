@@ -1,0 +1,46 @@
+{
+    "defaultStacks":[ "discussion" ],
+    "packages": {
+        "$name;format="norm"$": {
+            "type": "cloud-formation",
+            "apps": [ "$name;format="norm"$" ],
+            "data": {
+                "cloudFormationStackName": "$name;format="norm"$",
+                "prependStackToCloudFormationStackName": true,
+                "appendStageToCloudFormationStackName": true,
+                "templatePath": "cfn.json",
+                "templateParameters": {
+                    "Name": "$name;format="norm"$",
+                    "RpmName": "@@RPM_NAME",
+                    "VpcId": "$vpc_id$",
+                    "PublicVpcSubnets": "$public_vpc_subnets$",
+                    "PrivateVpcSubnets": "$private_vpc_subnets$"
+                }
+            }
+        },
+        "$name;format="norm"$-rpm": {
+            "type": "autoscaling",
+            "apps": [ "$name;format="norm"$" ],
+            "data": {
+                "bucket": "com-gu-discussion-repo".
+                "prefixStage": false,
+                "prefixPackage": false,
+                "prefixStack": false
+            }
+        }
+    },
+    "recipes": {
+        "default": {
+            "depends": [ "rpmUpload", "updateStack",  "deploy" ]
+        },
+        "rpmUpload": {
+            "actions": [ "$name;format="norm"$-rpm.uploadArtifacts" ]
+        },
+        "updateStack": {
+            "actions": [ "$name;format="norm"$.updateStack" ]
+        },
+        "deploy": {
+            "actions": [ "$name;format="norm"$.deploy" ]
+        }
+    }
+}
