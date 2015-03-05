@@ -7,7 +7,7 @@ import ScalateKeys._
 
 object $name;format="Camel"$Build extends Build {
   val Organization = "$organisation$"
-  val Name = "$name$"
+  val Name = "$name;format="norm"$"
   val Version = "$version$"
   val ScalaVersion = "$scala_version$"
   val ScalatraVersion = "2.3.0"
