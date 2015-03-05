@@ -12,7 +12,7 @@ PATH_TO_DEPLOY_JSON=deploy.json
 rm -rf artifact && rm -f *.rpm && rm -f *.bak
 
 # build and upload rpm
-if sbt assembly
+if ./sbt-tc assembly
 then
     PATH_TO_JAR=\$(find target/scala-*/ -name '*.jar')
 else
