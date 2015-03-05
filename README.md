@@ -1,4 +1,4 @@
-Discussion G8
+Service G8
 =============
 
 A [giter8](https://github.com/n8han/giter8) template for Discussion
@@ -9,4 +9,4 @@ See also: https://github.com/guardian/service.
 
 To install:
 
-    $ g8 guardian/discussion
+    $ g8 guardian/service

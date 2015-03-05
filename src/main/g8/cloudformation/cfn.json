@@ -7,7 +7,7 @@
             "Type": "String"
         },
         "Stack": {
-            "Description": "Service name",
+            "Description": "Service stack (lowercase)",
             "Type": "String"
         },
         "Stage": {

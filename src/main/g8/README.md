@@ -1,8 +1,8 @@
 # $name$
 
-Project built using [discussion.g8](https://github.com/guardian/discussion.g8).
+Project built using [service.g8](https://github.com/guardian/service.g8).
 
-Designed to adhere to [Service](https://github.com/guardian/service)
+Designed to adhere to [Service](https://github.com/guardian/service).
 
 ## Build & Run ##
 

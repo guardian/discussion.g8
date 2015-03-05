@@ -12,9 +12,9 @@ fpm -s dir \
     --rpm-os linux \
     -t rpm \
     -n "$name;format="norm"$" \
-    --description "Package for Discussion API" \
+    --description "Package for $stack$ $name$" \
     -v \$VERSION \
     -d aws-cli \
     --before-install \$DIR/before-install.sh \
     --after-install \$DIR/after-install.sh \
-    \$PATH_TO_JAR=/opt/gu/discussion/$name;format="norm"$.jar
+    \$PATH_TO_JAR=/opt/gu/$stack;format="norm"$/$name;format="norm"$.jar

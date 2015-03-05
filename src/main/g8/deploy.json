@@ -1,5 +1,5 @@
 {
-    "defaultStacks":[ "discussion" ],
+    "defaultStacks":[ "$stack;format="norm"$" ],
     "packages": {
         "$name;format="norm"$": {
             "type": "cloud-formation",
@@ -22,7 +22,7 @@
             "type": "autoscaling",
             "apps": [ "$name;format="norm"$" ],
             "data": {
-                "bucket": "com-gu-discussion-repo".
+                "bucket": "com-gu-$stack;format="norm"$-repo".
                 "prefixStage": false,
                 "prefixPackage": false,
                 "prefixStack": false
