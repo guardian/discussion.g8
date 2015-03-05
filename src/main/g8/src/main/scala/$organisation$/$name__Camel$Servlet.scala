@@ -26,5 +26,5 @@ class $name;format="Camel"$Servlet extends ScalatraServlet with JacksonJsonSuppo
 }
 
 sealed trait ServiceResponse
-case class ServiceOk(message: String)
-case class ServiceNotOk(message: String)
+case class ServiceOk(message: String) extends ServiceResponse
+case class ServiceNotOk(message: String) extends ServiceResponse
