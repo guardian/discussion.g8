@@ -19,7 +19,7 @@
         },
         "RpmName": {
             "Description": "rpm package name",
-            "Type": "Number"
+            "Type": "String"
         },
         "VpcId": {
             "Description": "ID of the VPC onto which to launch the application eg. vpc-1234abcd",
@@ -35,6 +35,39 @@
         }
     },
     "Resources": {
+        "InstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+               "Path": "/",
+               "Roles": [ { "Ref": "Role" } ]
+            }
+        },
+        "Role": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version" : "2012-10-17",
+                    "Statement": [ {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": [ "ec2.amazonaws.com" ]
+                        },
+                        "Action": [ "sts:AssumeRole" ]
+                    } ]
+                },
+                "Path": "/",
+                "Policies": [ {
+                    "PolicyName": "Policy",
+                    "PolicyDocument": {
+                        "Statement": [ {
+                            "Effect": "Allow",
+                            "Action": [ "s3:GetObject" ],
+                            "Resource": [ "arn:aws:s3:::com-gu-$stack;format="norm"$-repo/*" ]
+                        } ]
+                    }
+                } ]
+            }
+        },
         "ElasticLoadBalancer": {
             "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
             "Properties": {
@@ -55,7 +88,7 @@
                 },
                 "Subnets": { "Ref": "PublicVpcSubnets" },
                 "SecurityGroups": [
-                    { "Ref": "LoadBalancerSecurityGroup" }
+                    { "Ref": "ElasticLoadBalancerSecurityGroup" }
                 ]
             }
         },
@@ -94,10 +127,10 @@
             "Properties": {
                 "ImageId": "ami-9d23aeea",
                 "SecurityGroups": [
-                    { "Ref": "AppSecurityGroup" },
-                    { "Fn::FindInMap": ["StageMap", { "Ref": "Stage" }, "ElasticsearchSecurityGroup" ]}
+                    { "Ref": "AppSecurityGroup" }
                 ],
                 "InstanceType": "t2.small",
+                "IamInstanceProfile": { "Ref": "InstanceProfile" },
                 "UserData": {
                     "Fn::Base64": {
                         "Fn::Join": [ "\n", [
