@@ -31,9 +31,9 @@ else
 fi
 
 # publish artifact
-mkdir -p artifact/packages/{$name;format="norm"$,$name;format="norm"$-rpm}
-cp cloudformation/cfn.json artifact/packages/$name;format="norm"$/cfn.json
-cp \$PATH_TO_RPM artifact/packages/$name;format="norm"$-rpm/
+mkdir -p artifact/packages/{cfn,rpm}
+cp cloudformation/cfn.json artifact/packages/cfn/cfn.json
+cp \$PATH_TO_RPM artifact/packages/rpm/
 cp \$PATH_TO_DEPLOY_JSON artifact/
 cd artifact
 zip -rv artifacts.zip packages deploy.json

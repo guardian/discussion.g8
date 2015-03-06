@@ -1,7 +1,7 @@
 {
     "defaultStacks":[ "$stack;format="norm"$" ],
     "packages": {
-        "$name;format="norm"$": {
+        "cfn": {
             "type": "cloud-formation",
             "apps": [ "$name;format="norm"$" ],
             "data": {
@@ -18,7 +18,7 @@
                 }
             }
         },
-        "$name;format="norm"$-rpm": {
+        "rpm": {
             "type": "autoscaling",
             "apps": [ "$name;format="norm"$" ],
             "data": {
@@ -34,13 +34,13 @@
             "depends": [ "rpmUpload", "updateStack",  "deploy" ]
         },
         "rpmUpload": {
-            "actions": [ "$name;format="norm"$-rpm.uploadArtifacts" ]
+            "actions": [ "rpm.uploadArtifacts" ]
         },
         "updateStack": {
-            "actions": [ "$name;format="norm"$.updateStack" ]
+            "actions": [ "cfn.updateStack" ]
         },
         "deploy": {
-            "actions": [ "$name;format="norm"$.deploy" ]
+            "actions": [ "rpm.deploy" ]
         }
     }
 }
