@@ -12,6 +12,7 @@
                 "templateParameters": {
                     "Name": "$name;format="norm"$",
                     "RpmName": "@@RPM_NAME",
+                    "RpmRepoBucket": "$rpm_repo_bucket;format="norm"$",
                     "VpcId": "$vpc_id$",
                     "PublicVpcSubnets": "$public_vpc_subnets$",
                     "PrivateVpcSubnets": "$private_vpc_subnets$"

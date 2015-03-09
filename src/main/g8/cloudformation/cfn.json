@@ -21,6 +21,10 @@
             "Description": "rpm package name",
             "Type": "String"
         },
+        "RpmRepoBucket": {
+            "Description": "S3 bucket containing rpm repo",
+            "Type": "String"
+        },
         "VpcId": {
             "Description": "ID of the VPC onto which to launch the application eg. vpc-1234abcd",
             "Type": "String"
@@ -62,7 +66,7 @@
                         "Statement": [ {
                             "Effect": "Allow",
                             "Action": [ "s3:GetObject" ],
-                            "Resource": [ "arn:aws:s3:::com-gu-$stack;format="norm"$-repo/*" ]
+                            "Resource": { "Fn::Join": [ "" [ "arn:aws:s3:::", { "Ref": "RpmRepoBucket" }, "/*" ] ] },
                         } ]
                     }
                 } ]
@@ -124,6 +128,33 @@
         },
         "LaunchConfig": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Metadata": {
+                "AWS::CloudFormation::Init": {
+                    "config": {
+                        "files": {
+                            "/etc/yum.repos.d/service.repo": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "\n",
+                                        [
+                                            "[service]",
+                                            "name=Service packages",
+                                            { "Fn::Join": [ "/" [ "baseurl=https://s3-eu-west-1.amazonaws.com", { "Ref": "RpmRepoBucket" } ] ] },
+                                            "exclude=epel-release",
+                                            "enabled=1",
+                                            "gpgcheck=0",
+                                            "metadata_expire=5"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000644",
+                                "owner": "root",
+                                "group": "root"
+                            }
+                        }
+                    }
+                }
+            },
             "Properties": {
                 "ImageId": "ami-9d23aeea",
                 "SecurityGroups": [
@@ -133,9 +164,22 @@
                 "IamInstanceProfile": { "Ref": "InstanceProfile" },
                 "UserData": {
                     "Fn::Base64": {
-                        "Fn::Join": [ "\n", [
+                        "Fn::Join": [ "", [
                             "#!/bin/bash -v",
-                            { "Fn::Join": [ "", [ "yum install -y ", { "Ref": "RpmName" } ] ] }
+
+                            { "Fn::Join": [ " ", [
+                                "/opt/aws/bin/cfn-init -v -c default",
+                                "-s",
+                                { "Ref": "AWS::StackName" },
+                                "-r LaunchConfig",
+                                "--region",
+                                { "Ref": "AWS::Region" },
+                                "&> /tmp/cfn_init.log"
+                            ] ] },
+
+                            { "Fn::Join": [ "/" [ "aws s3 cp s3:/", { "Ref": "RpmRepoBucket" }, { "Ref": "RpmName" } ] ] },
+
+                            { "Fn::Join": [ "", [ "yum install -y ", {"Ref": "RpmName" } ] ] }
                         ] ]
                     }
                 }
