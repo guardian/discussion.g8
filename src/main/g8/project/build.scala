@@ -23,7 +23,7 @@ object $name;format="Camel"$Build extends Build {
       resolvers += Classpaths.typesafeReleases,
       libraryDependencies ++= Seq(
         "org.scalatra" %% "scalatra" % ScalatraVersion,
-        "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
+        "ch.qos.logback" % "logback-classic" % "1.1.2",
         "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "container;compile",
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
