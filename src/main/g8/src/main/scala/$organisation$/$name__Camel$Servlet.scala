@@ -12,15 +12,15 @@ class $name;format="Camel"$Servlet extends ScalatraServlet with JacksonJsonSuppo
     contentType = formats("json")
   }
 
-  get("/service/healthcheck") {
+  get("/management/healthcheck") {
     Ok(ServiceOk("OK"))
   }
 
-  get("/service/gtg") {
+  get("/management/gtg") {
     NotImplemented(ServiceNotOk("Endpoint needs to be specified"))
   }
 
-  get("/service/dependencies") {
+  get("/management/dependencies") {
     NotImplemented(ServiceNotOk("Endpoint needs to be specified"))
   }
 }

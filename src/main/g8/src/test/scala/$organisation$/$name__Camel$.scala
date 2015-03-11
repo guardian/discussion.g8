@@ -8,7 +8,7 @@ class $name;format="Camel"$ServletTests extends ScalatraSuite with FunSuiteLike 
   addServlet(classOf[$name;format="Camel"$Servlet], "/*")
 
   test("simple get") {
-    get("/service/healthcheck") {
+    get("/management/healthcheck") {
       status should equal (200)
       body should include ("OK")
     }
