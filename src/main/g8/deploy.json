@@ -10,7 +10,7 @@
                 "appendStageToCloudFormationStackName": true,
                 "templatePath": "cfn.json",
                 "templateParameters": {
-                    "Name": "$name;format="norm"$",
+                    "App": "$name;format="norm"$",
                     "RpmName": "@@RPM_NAME",
                     "RpmRepoBucket": "$rpm_repo_bucket;format="norm"$",
                     "VpcId": "$vpc_id$",

@@ -2,8 +2,8 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Description goes here",
     "Parameters": {
-        "Name": {
-            "Description": "Service name",
+        "App": {
+            "Description": "Service name (must be normalised)",
             "Type": "String"
         },
         "Stack": {
@@ -120,7 +120,12 @@
                     },
                     {
                         "Key": "App",
-                        "Value": { "Ref": "Name" },
+                        "Value": { "Ref": "App" },
+                        "PropagateAtLaunch": "true"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": { "Fn::Join": [ ":", [ { "Ref": "Stage" }, { "Ref": "App" } ] ]},
                         "PropagateAtLaunch": "true"
                     }
                 ]
