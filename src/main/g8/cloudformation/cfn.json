@@ -182,7 +182,7 @@
                                 "&> /tmp/cfn_init.log"
                             ] ] },
 
-                            { "Fn::Join": [ "/" [ "aws s3 cp s3:/", { "Ref": "RpmRepoBucket" }, { "Ref": "RpmName" } ] ] },
+                            { "Fn::Join": [ "" [ "aws s3 cp s3://", { "Ref": "RpmRepoBucket" }, "/", { "Ref": "RpmName" }, " ." ] ] },
 
                             { "Fn::Join": [ "", [ "yum install -y ", {"Ref": "RpmName" } ] ] }
                         ] ]
