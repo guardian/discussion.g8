@@ -17,4 +17,5 @@ fpm -s dir \
     -d aws-cli \
     --before-install \$DIR/before-install.sh \
     --after-install \$DIR/after-install.sh \
-    \$PATH_TO_JAR=/opt/gu/$stack;format="norm"$/$name;format="norm"$.jar
+    $DIR/files/=/ \
+    \$PATH_TO_JAR=/opt/$organisation;format="packaged"$/$name;format="norm"$.jar
