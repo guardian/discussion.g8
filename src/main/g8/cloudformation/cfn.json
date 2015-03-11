@@ -36,6 +36,10 @@
         "PrivateVpcSubnets": {
             "Description": "Subnets to use in VPC for private EC2 instances eg. subnet-abcd1234",
             "Type": "CommaDelimitedList"
+        },
+        "HostedZone": {
+            "Description": "Hosted zone to use for DNS entry pointing to public ELB",
+            "Type": "String"
         }
     },
     "Resources": {
@@ -70,6 +74,23 @@
                         } ]
                     }
                 } ]
+            }
+        },
+        "DnsRecord": {
+            "Type": "AWS::Route53::RecordSetGroup",
+            "Properties": {
+                "HostedZoneName": { "Fn::Join": [ "", [ { "Ref": "HostedZone" }, "." ] ] },
+                "Comment": "Alias to public ELB",
+                "RecordSets": [
+                    {
+                        "Name": { "Fn::Join": [ ".", [ { "Ref": "App" }, { "Ref": "HostedZone" } ] ] },
+                        "Type": "A",
+                        "AliasTarget" : {
+                            "HostedZoneId" : { "Fn::GetAtt" : [ "ElasticLoadBalancer", "CanonicalHostedZoneNameID" ] },
+                            "DNSName" : { "Fn::GetAtt": [ "ElasticLoadBalancer", "DNSName" ] }
+                        }
+                    }
+                ]
             }
         },
         "ElasticLoadBalancer": {
@@ -242,8 +263,8 @@
         }
     },
     "Outputs": {
-        "ElasticLoadBalancer": {
-            "Value": { "Fn::GetAtt": [ "ElasticLoadBalancer", "DNSName" ] }
+        "DnsRecord": {
+            "Value": { "Ref": "DnsRecord" }
         }
     }
 }
