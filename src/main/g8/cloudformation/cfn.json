@@ -70,7 +70,7 @@
                         "Statement": [ {
                             "Effect": "Allow",
                             "Action": [ "s3:GetObject" ],
-                            "Resource": { "Fn::Join": [ "" [ "arn:aws:s3:::", { "Ref": "RpmRepoBucket" }, "/*" ] ] },
+                            "Resource": { "Fn::Join": [ "", [ "arn:aws:s3:::", { "Ref": "RpmRepoBucket" }, "/*" ] ] },
                         } ]
                     }
                 } ]
@@ -165,7 +165,7 @@
                                         [
                                             "[service]",
                                             "name=Service packages",
-                                            { "Fn::Join": [ "/" [ "baseurl=https://s3-eu-west-1.amazonaws.com", { "Ref": "RpmRepoBucket" } ] ] },
+                                            { "Fn::Join": [ "/", [ "baseurl=https://s3-eu-west-1.amazonaws.com", { "Ref": "RpmRepoBucket" } ] ] },
                                             "exclude=epel-release",
                                             "enabled=1",
                                             "gpgcheck=0",
@@ -203,7 +203,7 @@
                                 "&> /tmp/cfn_init.log"
                             ] ] },
 
-                            { "Fn::Join": [ "" [ "aws s3 cp s3://", { "Ref": "RpmRepoBucket" }, "/", { "Ref": "RpmName" }, " ." ] ] },
+                            { "Fn::Join": [ "", [ "aws s3 cp s3://", { "Ref": "RpmRepoBucket" }, "/", { "Ref": "RpmName" }, " ." ] ] },
 
                             { "Fn::Join": [ "", [ "yum install -y ", {"Ref": "RpmName" } ] ] }
                         ] ]
