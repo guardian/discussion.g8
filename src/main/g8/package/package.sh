@@ -15,6 +15,7 @@ fpm -s dir \
     --description "Package for $stack$ $name$" \
     -v \$VERSION \
     -d aws-cli \
+    -d java-1.8.0-openjdk \
     --before-install \$DIR/before-install.sh \
     --after-install \$DIR/after-install.sh \
     \$DIR/files/=/ \
